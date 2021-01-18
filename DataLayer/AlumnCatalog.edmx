@@ -1,0 +1,681 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="osu2008Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AlumniAddressSet">
+          <Key>
+            <PropertyRef Name="AlumniAddressId" />
+          </Key>
+          <Property Name="AlumniAddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StreetAddress" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PostalCode" Type="int" Nullable="false" />
+          <Property Name="City" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ClassYearSet">
+          <Key>
+            <PropertyRef Name="ClassYearId" />
+          </Key>
+          <Property Name="ClassYearId" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ProgramProgramId" Type="nvarchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventSet">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StartDate" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EndDate" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Creator" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventSet_Activity">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MaxNoParticipants" Type="int" Nullable="false" />
+          <Property Name="EventId" Type="nvarchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventSet_Information">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="nvarchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OccupationSet">
+          <Key>
+            <PropertyRef Name="OccupationId" />
+          </Key>
+          <Property Name="OccupationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProgramSet">
+          <Key>
+            <PropertyRef Name="ProgramId" />
+          </Key>
+          <Property Name="ProgramId" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Section" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserEvent">
+          <Key>
+            <PropertyRef Name="User_UserId" />
+            <PropertyRef Name="Event_EventId" />
+          </Key>
+          <Property Name="User_UserId" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Event_EventId" Type="nvarchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSet">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="AdminRights" Type="bit" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SocialSecurityNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserSet_Alumni">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="Credits" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HasDegree" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="OccupationOccupationId" Type="int" Nullable="false" />
+          <Property Name="AlumniAddressAlumniAddressId" Type="int" Nullable="false" />
+          <Property Name="ClassYearClassYearId" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSet_Employee">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="Position" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Activity_inherits_Event">
+          <End Role="EventSet" Type="Self.EventSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventSet_Activity" Type="Self.EventSet_Activity" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="EventSet">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="EventSet_Activity">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alumni_inherits_User">
+          <End Role="UserSet" Type="Self.UserSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserSet_Alumni" Type="Self.UserSet_Alumni" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserSet">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserSet_Alumni">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlumniAlumniAddress">
+          <End Role="AlumniAddressSet" Type="Self.AlumniAddressSet" Multiplicity="1" />
+          <End Role="UserSet_Alumni" Type="Self.UserSet_Alumni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlumniAddressSet">
+              <PropertyRef Name="AlumniAddressId" />
+            </Principal>
+            <Dependent Role="UserSet_Alumni">
+              <PropertyRef Name="AlumniAddressAlumniAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlumniClassYear">
+          <End Role="ClassYearSet" Type="Self.ClassYearSet" Multiplicity="1" />
+          <End Role="UserSet_Alumni" Type="Self.UserSet_Alumni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassYearSet">
+              <PropertyRef Name="ClassYearId" />
+            </Principal>
+            <Dependent Role="UserSet_Alumni">
+              <PropertyRef Name="ClassYearClassYearId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlumniOccupation">
+          <End Role="OccupationSet" Type="Self.OccupationSet" Multiplicity="1" />
+          <End Role="UserSet_Alumni" Type="Self.UserSet_Alumni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OccupationSet">
+              <PropertyRef Name="OccupationId" />
+            </Principal>
+            <Dependent Role="UserSet_Alumni">
+              <PropertyRef Name="OccupationOccupationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassYearProgram">
+          <End Role="ProgramSet" Type="Self.ProgramSet" Multiplicity="1" />
+          <End Role="ClassYearSet" Type="Self.ClassYearSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProgramSet">
+              <PropertyRef Name="ProgramId" />
+            </Principal>
+            <Dependent Role="ClassYearSet">
+              <PropertyRef Name="ProgramProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_inherits_User">
+          <End Role="UserSet" Type="Self.UserSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserSet_Employee" Type="Self.UserSet_Employee" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserSet">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserSet_Employee">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Information_inherits_Event">
+          <End Role="EventSet" Type="Self.EventSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventSet_Information" Type="Self.EventSet_Information" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="EventSet">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="EventSet_Information">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserEvent_Event">
+          <End Role="EventSet" Type="Self.EventSet" Multiplicity="1" />
+          <End Role="UserEvent" Type="Self.UserEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventSet">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="UserEvent">
+              <PropertyRef Name="Event_EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserEvent_User">
+          <End Role="UserSet" Type="Self.UserSet" Multiplicity="1" />
+          <End Role="UserEvent" Type="Self.UserEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSet">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserEvent">
+              <PropertyRef Name="User_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="osu2008ModelStoreContainer">
+          <EntitySet Name="AlumniAddressSet" EntityType="Self.AlumniAddressSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClassYearSet" EntityType="Self.ClassYearSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventSet" EntityType="Self.EventSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventSet_Activity" EntityType="Self.EventSet_Activity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventSet_Information" EntityType="Self.EventSet_Information" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OccupationSet" EntityType="Self.OccupationSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProgramSet" EntityType="Self.ProgramSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserEvent" EntityType="Self.UserEvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSet" EntityType="Self.UserSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSet_Alumni" EntityType="Self.UserSet_Alumni" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSet_Employee" EntityType="Self.UserSet_Employee" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Activity_inherits_Event" Association="Self.FK_Activity_inherits_Event">
+            <End Role="EventSet" EntitySet="EventSet" />
+            <End Role="EventSet_Activity" EntitySet="EventSet_Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alumni_inherits_User" Association="Self.FK_Alumni_inherits_User">
+            <End Role="UserSet" EntitySet="UserSet" />
+            <End Role="UserSet_Alumni" EntitySet="UserSet_Alumni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlumniAlumniAddress" Association="Self.FK_AlumniAlumniAddress">
+            <End Role="AlumniAddressSet" EntitySet="AlumniAddressSet" />
+            <End Role="UserSet_Alumni" EntitySet="UserSet_Alumni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlumniClassYear" Association="Self.FK_AlumniClassYear">
+            <End Role="ClassYearSet" EntitySet="ClassYearSet" />
+            <End Role="UserSet_Alumni" EntitySet="UserSet_Alumni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlumniOccupation" Association="Self.FK_AlumniOccupation">
+            <End Role="OccupationSet" EntitySet="OccupationSet" />
+            <End Role="UserSet_Alumni" EntitySet="UserSet_Alumni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassYearProgram" Association="Self.FK_ClassYearProgram">
+            <End Role="ProgramSet" EntitySet="ProgramSet" />
+            <End Role="ClassYearSet" EntitySet="ClassYearSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_inherits_User" Association="Self.FK_Employee_inherits_User">
+            <End Role="UserSet" EntitySet="UserSet" />
+            <End Role="UserSet_Employee" EntitySet="UserSet_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Information_inherits_Event" Association="Self.FK_Information_inherits_Event">
+            <End Role="EventSet" EntitySet="EventSet" />
+            <End Role="EventSet_Information" EntitySet="EventSet_Information" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserEvent_Event" Association="Self.FK_UserEvent_Event">
+            <End Role="EventSet" EntitySet="EventSet" />
+            <End Role="UserEvent" EntitySet="UserEvent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserEvent_User" Association="Self.FK_UserEvent_User">
+            <End Role="UserSet" EntitySet="UserSet" />
+            <End Role="UserEvent" EntitySet="UserEvent" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="osu2008Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AlumniAddressSet">
+          <Key>
+            <PropertyRef Name="AlumniAddressId" />
+          </Key>
+          <Property Name="AlumniAddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StreetAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostalCode" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserSet_Alumni" Relationship="Self.FK_AlumniAlumniAddress" FromRole="AlumniAddressSet" ToRole="UserSet_Alumni" />
+        </EntityType>
+        <EntityType Name="ClassYearSet">
+          <Key>
+            <PropertyRef Name="ClassYearId" />
+          </Key>
+          <Property Name="ClassYearId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProgramProgramId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserSet_Alumni" Relationship="Self.FK_AlumniClassYear" FromRole="ClassYearSet" ToRole="UserSet_Alumni" />
+          <NavigationProperty Name="ProgramSet" Relationship="Self.FK_ClassYearProgram" FromRole="ClassYearSet" ToRole="ProgramSet" />
+        </EntityType>
+        <EntityType Name="EventSet">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EndDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Creator" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EventSet_Activity" Relationship="Self.FK_Activity_inherits_Event" FromRole="EventSet" ToRole="EventSet_Activity" />
+          <NavigationProperty Name="EventSet_Information" Relationship="Self.FK_Information_inherits_Event" FromRole="EventSet" ToRole="EventSet_Information" />
+          <NavigationProperty Name="UserSets" Relationship="Self.UserEvent" FromRole="EventSet" ToRole="UserSet" />
+        </EntityType>
+        <EntityType Name="EventSet_Activity">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MaxNoParticipants" Type="Int32" Nullable="false" />
+          <Property Name="EventId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EventSet" Relationship="Self.FK_Activity_inherits_Event" FromRole="EventSet_Activity" ToRole="EventSet" />
+        </EntityType>
+        <EntityType Name="EventSet_Information">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EventSet" Relationship="Self.FK_Information_inherits_Event" FromRole="EventSet_Information" ToRole="EventSet" />
+        </EntityType>
+        <EntityType Name="OccupationSet">
+          <Key>
+            <PropertyRef Name="OccupationId" />
+          </Key>
+          <Property Name="OccupationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserSet_Alumni" Relationship="Self.FK_AlumniOccupation" FromRole="OccupationSet" ToRole="UserSet_Alumni" />
+        </EntityType>
+        <EntityType Name="ProgramSet">
+          <Key>
+            <PropertyRef Name="ProgramId" />
+          </Key>
+          <Property Name="ProgramId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Section" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ClassYearSets" Relationship="Self.FK_ClassYearProgram" FromRole="ProgramSet" ToRole="ClassYearSet" />
+        </EntityType>
+        <EntityType Name="UserSet">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdminRights" Type="Boolean" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SocialSecurityNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserSet_Alumni" Relationship="Self.FK_Alumni_inherits_User" FromRole="UserSet" ToRole="UserSet_Alumni" />
+          <NavigationProperty Name="UserSet_Employee" Relationship="Self.FK_Employee_inherits_User" FromRole="UserSet" ToRole="UserSet_Employee" />
+          <NavigationProperty Name="EventSets" Relationship="Self.UserEvent" FromRole="UserSet" ToRole="EventSet" />
+        </EntityType>
+        <EntityType Name="UserSet_Alumni">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="Credits" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HasDegree" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OccupationOccupationId" Type="Int32" Nullable="false" />
+          <Property Name="AlumniAddressAlumniAddressId" Type="Int32" Nullable="false" />
+          <Property Name="ClassYearClassYearId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AlumniAddressSet" Relationship="Self.FK_AlumniAlumniAddress" FromRole="UserSet_Alumni" ToRole="AlumniAddressSet" />
+          <NavigationProperty Name="ClassYearSet" Relationship="Self.FK_AlumniClassYear" FromRole="UserSet_Alumni" ToRole="ClassYearSet" />
+          <NavigationProperty Name="OccupationSet" Relationship="Self.FK_AlumniOccupation" FromRole="UserSet_Alumni" ToRole="OccupationSet" />
+          <NavigationProperty Name="UserSet" Relationship="Self.FK_Alumni_inherits_User" FromRole="UserSet_Alumni" ToRole="UserSet" />
+        </EntityType>
+        <EntityType Name="UserSet_Employee">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserSet" Relationship="Self.FK_Employee_inherits_User" FromRole="UserSet_Employee" ToRole="UserSet" />
+        </EntityType>
+        <Association Name="FK_AlumniAlumniAddress">
+          <End Role="AlumniAddressSet" Type="Self.AlumniAddressSet" Multiplicity="1" />
+          <End Role="UserSet_Alumni" Type="Self.UserSet_Alumni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlumniAddressSet">
+              <PropertyRef Name="AlumniAddressId" />
+            </Principal>
+            <Dependent Role="UserSet_Alumni">
+              <PropertyRef Name="AlumniAddressAlumniAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlumniClassYear">
+          <End Role="ClassYearSet" Type="Self.ClassYearSet" Multiplicity="1" />
+          <End Role="UserSet_Alumni" Type="Self.UserSet_Alumni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassYearSet">
+              <PropertyRef Name="ClassYearId" />
+            </Principal>
+            <Dependent Role="UserSet_Alumni">
+              <PropertyRef Name="ClassYearClassYearId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassYearProgram">
+          <End Role="ProgramSet" Type="Self.ProgramSet" Multiplicity="1" />
+          <End Role="ClassYearSet" Type="Self.ClassYearSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProgramSet">
+              <PropertyRef Name="ProgramId" />
+            </Principal>
+            <Dependent Role="ClassYearSet">
+              <PropertyRef Name="ProgramProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Activity_inherits_Event">
+          <End Role="EventSet" Type="Self.EventSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventSet_Activity" Type="Self.EventSet_Activity" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="EventSet">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="EventSet_Activity">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Information_inherits_Event">
+          <End Role="EventSet" Type="Self.EventSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventSet_Information" Type="Self.EventSet_Information" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="EventSet">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="EventSet_Information">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlumniOccupation">
+          <End Role="OccupationSet" Type="Self.OccupationSet" Multiplicity="1" />
+          <End Role="UserSet_Alumni" Type="Self.UserSet_Alumni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OccupationSet">
+              <PropertyRef Name="OccupationId" />
+            </Principal>
+            <Dependent Role="UserSet_Alumni">
+              <PropertyRef Name="OccupationOccupationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alumni_inherits_User">
+          <End Role="UserSet" Type="Self.UserSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserSet_Alumni" Type="Self.UserSet_Alumni" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserSet">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserSet_Alumni">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_inherits_User">
+          <End Role="UserSet" Type="Self.UserSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserSet_Employee" Type="Self.UserSet_Employee" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserSet">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserSet_Employee">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserEvent">
+          <End Role="EventSet" Type="Self.EventSet" Multiplicity="*" />
+          <End Role="UserSet" Type="Self.UserSet" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="osu2008Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AlumniAddressSets" EntityType="Self.AlumniAddressSet" />
+          <EntitySet Name="ClassYearSets" EntityType="Self.ClassYearSet" />
+          <EntitySet Name="EventSets" EntityType="Self.EventSet" />
+          <EntitySet Name="EventSet_Activity" EntityType="Self.EventSet_Activity" />
+          <EntitySet Name="EventSet_Information" EntityType="Self.EventSet_Information" />
+          <EntitySet Name="OccupationSets" EntityType="Self.OccupationSet" />
+          <EntitySet Name="ProgramSets" EntityType="Self.ProgramSet" />
+          <EntitySet Name="UserSets" EntityType="Self.UserSet" />
+          <EntitySet Name="UserSet_Alumni" EntityType="Self.UserSet_Alumni" />
+          <EntitySet Name="UserSet_Employee" EntityType="Self.UserSet_Employee" />
+          <AssociationSet Name="FK_AlumniAlumniAddress" Association="Self.FK_AlumniAlumniAddress">
+            <End Role="AlumniAddressSet" EntitySet="AlumniAddressSets" />
+            <End Role="UserSet_Alumni" EntitySet="UserSet_Alumni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlumniClassYear" Association="Self.FK_AlumniClassYear">
+            <End Role="ClassYearSet" EntitySet="ClassYearSets" />
+            <End Role="UserSet_Alumni" EntitySet="UserSet_Alumni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassYearProgram" Association="Self.FK_ClassYearProgram">
+            <End Role="ProgramSet" EntitySet="ProgramSets" />
+            <End Role="ClassYearSet" EntitySet="ClassYearSets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Activity_inherits_Event" Association="Self.FK_Activity_inherits_Event">
+            <End Role="EventSet" EntitySet="EventSets" />
+            <End Role="EventSet_Activity" EntitySet="EventSet_Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Information_inherits_Event" Association="Self.FK_Information_inherits_Event">
+            <End Role="EventSet" EntitySet="EventSets" />
+            <End Role="EventSet_Information" EntitySet="EventSet_Information" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlumniOccupation" Association="Self.FK_AlumniOccupation">
+            <End Role="OccupationSet" EntitySet="OccupationSets" />
+            <End Role="UserSet_Alumni" EntitySet="UserSet_Alumni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alumni_inherits_User" Association="Self.FK_Alumni_inherits_User">
+            <End Role="UserSet" EntitySet="UserSets" />
+            <End Role="UserSet_Alumni" EntitySet="UserSet_Alumni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_inherits_User" Association="Self.FK_Employee_inherits_User">
+            <End Role="UserSet" EntitySet="UserSets" />
+            <End Role="UserSet_Employee" EntitySet="UserSet_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="UserEvent" Association="Self.UserEvent">
+            <End Role="EventSet" EntitySet="EventSets" />
+            <End Role="UserSet" EntitySet="UserSets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="osu2008ModelStoreContainer" CdmEntityContainer="osu2008Entities1">
+          <EntitySetMapping Name="AlumniAddressSets">
+            <EntityTypeMapping TypeName="osu2008Model.AlumniAddressSet">
+              <MappingFragment StoreEntitySet="AlumniAddressSet">
+                <ScalarProperty Name="AlumniAddressId" ColumnName="AlumniAddressId" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClassYearSets">
+            <EntityTypeMapping TypeName="osu2008Model.ClassYearSet">
+              <MappingFragment StoreEntitySet="ClassYearSet">
+                <ScalarProperty Name="ClassYearId" ColumnName="ClassYearId" />
+                <ScalarProperty Name="ProgramProgramId" ColumnName="ProgramProgramId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventSets">
+            <EntityTypeMapping TypeName="osu2008Model.EventSet">
+              <MappingFragment StoreEntitySet="EventSet">
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventSet_Activity">
+            <EntityTypeMapping TypeName="osu2008Model.EventSet_Activity">
+              <MappingFragment StoreEntitySet="EventSet_Activity">
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="MaxNoParticipants" ColumnName="MaxNoParticipants" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventSet_Information">
+            <EntityTypeMapping TypeName="osu2008Model.EventSet_Information">
+              <MappingFragment StoreEntitySet="EventSet_Information">
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OccupationSets">
+            <EntityTypeMapping TypeName="osu2008Model.OccupationSet">
+              <MappingFragment StoreEntitySet="OccupationSet">
+                <ScalarProperty Name="OccupationId" ColumnName="OccupationId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProgramSets">
+            <EntityTypeMapping TypeName="osu2008Model.ProgramSet">
+              <MappingFragment StoreEntitySet="ProgramSet">
+                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
+                <ScalarProperty Name="Section" ColumnName="Section" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSets">
+            <EntityTypeMapping TypeName="osu2008Model.UserSet">
+              <MappingFragment StoreEntitySet="UserSet">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AdminRights" ColumnName="AdminRights" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="SocialSecurityNumber" ColumnName="SocialSecurityNumber" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSet_Alumni">
+            <EntityTypeMapping TypeName="osu2008Model.UserSet_Alumni">
+              <MappingFragment StoreEntitySet="UserSet_Alumni">
+                <ScalarProperty Name="Credits" ColumnName="Credits" />
+                <ScalarProperty Name="HasDegree" ColumnName="HasDegree" />
+                <ScalarProperty Name="OccupationOccupationId" ColumnName="OccupationOccupationId" />
+                <ScalarProperty Name="AlumniAddressAlumniAddressId" ColumnName="AlumniAddressAlumniAddressId" />
+                <ScalarProperty Name="ClassYearClassYearId" ColumnName="ClassYearClassYearId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSet_Employee">
+            <EntityTypeMapping TypeName="osu2008Model.UserSet_Employee">
+              <MappingFragment StoreEntitySet="UserSet_Employee">
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UserEvent" TypeName="osu2008Model.UserEvent" StoreEntitySet="UserEvent">
+            <EndProperty Name="EventSet">
+              <ScalarProperty Name="EventId" ColumnName="Event_EventId" />
+            </EndProperty>
+            <EndProperty Name="UserSet">
+              <ScalarProperty Name="UserId" ColumnName="User_UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="65fd20257bdb4d52ba871169f943e068" Name="Diagram1">
+        <EntityTypeShape EntityType="osu2008Model.AlumniAddressSet" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="osu2008Model.ClassYearSet" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="osu2008Model.EventSet" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="osu2008Model.EventSet_Activity" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="osu2008Model.EventSet_Information" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="osu2008Model.OccupationSet" Width="1.5" PointX="6.125" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="osu2008Model.ProgramSet" Width="1.5" PointX="0.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="osu2008Model.UserSet" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="osu2008Model.UserSet_Alumni" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="osu2008Model.UserSet_Employee" Width="1.5" PointX="5.25" PointY="13.125" IsExpanded="true" />
+        <AssociationConnector Association="osu2008Model.FK_AlumniAlumniAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="osu2008Model.FK_AlumniClassYear" ManuallyRouted="false" />
+        <AssociationConnector Association="osu2008Model.FK_ClassYearProgram" ManuallyRouted="false" />
+        <AssociationConnector Association="osu2008Model.FK_Activity_inherits_Event" ManuallyRouted="false" />
+        <AssociationConnector Association="osu2008Model.FK_Information_inherits_Event" ManuallyRouted="false" />
+        <AssociationConnector Association="osu2008Model.FK_AlumniOccupation" ManuallyRouted="false" />
+        <AssociationConnector Association="osu2008Model.FK_Alumni_inherits_User" ManuallyRouted="false" />
+        <AssociationConnector Association="osu2008Model.FK_Employee_inherits_User" ManuallyRouted="false" />
+        <AssociationConnector Association="osu2008Model.UserEvent" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
